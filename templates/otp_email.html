@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+    .email-container {
+      max-width: 480px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .logo img {
+      width: 100px;
+      height: auto;
+    }
+    .heading {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-top: 12px;
+    }
+    .message {
+      text-align: center;
+      font-size: 16px;
+      color: #374151;
+      margin: 20px 0;
+    }
+    .otp {
+      display: inline-block;
+      font-size: 28px;
+      letter-spacing: 8px;
+      font-weight: bold;
+      color: #2563eb;
+      background-color: #e0e7ff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin: 0 auto;
+    }
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="logo">
+      <img src="https://yourdomain.com/static/logo.png" alt="Mytho Logo">
+    </div>
+    <div class="heading">OTP Verification</div>
+    <div class="message">
+      Hello {{ name }},<br>
+      Use the following OTP to continue on the Mytho app.
+    </div>
+    <div style="text-align: center;">
+      <div class="otp">{{ otp }}</div>
+    </div>
+    <div class="message" style="font-size: 14px; margin-top: 24px;">
+      This OTP is valid for 10 minutes.<br>
+      Do not share this code with anyone.
+    </div>
+    <div class="footer">
+      &copy; 2025 Mytho • All rights reserved
+    </div>
+  </div>
+</body>
+</html>
