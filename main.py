@@ -15,11 +15,11 @@ def signup(user: UserModel):
         raise HTTPException(status_code=400, detail="Email already exists")
     
     hashed_password = get_password_hash(user.password)
-    fake_users_db[user.email] = {"email": user.email, "hashed_password": hashed_password}
-    access_token = create_access_token(data={"sub": user.email})
+    fake_users_db[user.email] = {"email": user.email, "full_name": user.full_name, "hashed_password": hashed_password}
+    access_token = create_access_token(data={"email": user.email, "full_name": user.full_name})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@app.get("/bot_details", response_model=List[BotDetailModel])
+@app.get("/bot_details")
 def get_bot_details(token: str = Depends(oauth2_scheme)):
     email = verify_token(token)
     if email not in fake_users_db:
@@ -37,4 +37,4 @@ def get_bot_details(token: str = Depends(oauth2_scheme)):
         }
     ]
 
-    return bots
+    return {"bots": bots, "fake_users_db": fake_users_db}
