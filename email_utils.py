@@ -5,7 +5,6 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Email, To, Content
 from jinja2 import Environment, FileSystemLoader
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Load environment variables
 load_dotenv()
@@ -13,19 +12,8 @@ load_dotenv()
 # Set up Jinja2 environment
 env = Environment(loader=FileSystemLoader("templates"))
 
-# Settings class
-class Settings(BaseSettings):
-    ENV: str
-    SENDGRID_API_KEY: str
-    SENDGRID_FROM_EMAIL: str
-    SENDGRID_FROM_NAME: str
-
-    model_config = SettingsConfigDict(env_file=".env", extra="allow")
-
-settings = Settings()
-
 # DEV MODE SSL BYPASS
-if settings.ENV.lower() == "development":
+if os.getenv("ENV").lower() == "development":
     print("[INFO] Running in development mode. SSL verification is disabled.")
 
     # Disable SSL certificate verification globally
@@ -48,12 +36,12 @@ def render_template(name: str, otp: str) -> str:
 def send_email_with_sendgrid(to_email: str, subject: str, html_content: str):
     try:
         message = Mail(
-            from_email=Email(settings.SENDGRID_FROM_EMAIL, settings.SENDGRID_FROM_NAME),
+            from_email=Email(os.getenv("SENDGRID_FROM_EMAIL"), os.getenv("SENDGRID_FROM_NAME")),
             to_emails=To(to_email),
             subject=subject,
             html_content=Content("text/html", html_content)
         )
-        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
         print("Email Sent:", response.status_code)
         return response.status_code

@@ -108,7 +108,7 @@ def forgot_password(user: UserBase, background_tasks: BackgroundTasks, db: Sessi
     except Exception as e:
         db_error(db, e)
 
-    # background_tasks.add_task(send_otp_to_email, user.email, otp)
+    background_tasks.add_task(send_otp_to_email, user.email, otp)
     return {"message": f"{otp} Sent to your {existing_user.email}"}
 
 @app.post("/otp-verification")
